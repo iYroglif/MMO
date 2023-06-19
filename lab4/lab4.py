@@ -1,7 +1,5 @@
 import gym
 import numpy as np
-import matplotlib.pyplot as plt
-from pprint import pprint
 
 
 class PolicyIterationAgent:
@@ -12,7 +10,7 @@ class PolicyIterationAgent:
         self.env = env
         self.observation_dim = 500
         self.actions_variants = np.array([0,1,2,3,4,5])
-        self.policy_probs = np.full((self.observation_dim, len(self.actions_variants)), 0.25)
+        self.policy_probs = np.full((self.observation_dim, len(self.actions_variants)), 1/len(self.actions_variants))
         self.state_values = np.zeros(shape=(self.observation_dim))
         self.maxNumberOfIterations = 1000
         self.theta=1e-6
@@ -24,7 +22,7 @@ class PolicyIterationAgent:
         Вывод матриц стратегии
         '''
         print('Стратегия:')
-        pprint(self.policy_probs)
+        print(self.policy_probs)
 
 
     def policy_evaluation(self):
@@ -105,16 +103,19 @@ def play_agent(agent):
 
 
 def main():
-
-    # # Создание среды
+    # Создание среды
     env = gym.make('Taxi-v3')
     env.reset()
-    # # Обучение агента
+    # Обучение агента
     agent = PolicyIterationAgent(env)
     agent.print_policy()
     agent.policy_iteration(1000)
     agent.print_policy()
-    # # Проигрывание сцены для обученного агента
+    # Проигрывание сцены для обученного агента
+    play_agent(agent)
+    play_agent(agent)
+    play_agent(agent)
+    play_agent(agent)
     play_agent(agent)
     play_agent(agent)
     play_agent(agent)
