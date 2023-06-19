@@ -173,11 +173,35 @@ def play_agent(agent):
 
 def run_q_learning():
     env = gym.make("CliffWalking-v0")
-    agent = QLearning_Agent(env)
-    agent.learn()
-    agent.print_q()
-    agent.draw_episodes_reward()
-    play_agent(agent)
+
+    epsilons = [0.3, 0.4, 0.5]
+    learning_rates = [0.05, 0.1, 0.2]
+    gammas = [0.95, 0.98, 0.99]
+    num_episodes = 20000
+    
+    best_reward = float('-inf')
+    best_hyperparams = None
+    best_agent = None
+
+    for eps in epsilons:
+        for lr in learning_rates:
+            for gamma in gammas:
+                agent = QLearning_Agent(env, eps=eps, lr=lr, gamma=gamma, num_episodes=num_episodes)
+                agent.learn()
+                total_reward = sum(agent.episodes_reward)
+                print(f'Гиперпараметры: epsilon={eps}, learning rate={lr}, gamma={gamma}, num episodes={num_episodes}')
+                print(f'Суммарная награда: {total_reward}\n')
+
+                if total_reward > best_reward:
+                    best_reward = total_reward
+                    best_hyperparams = (eps, lr, gamma, num_episodes)
+                    best_agent = agent
+
+    print(f'Лучшие гиперпараметры: epsilon={best_hyperparams[0]}, learning rate={best_hyperparams[1]}, gamma={best_hyperparams[2]}, num episodes={best_hyperparams[3]}')
+
+    best_agent.print_q()
+    best_agent.draw_episodes_reward()
+    play_agent(best_agent)
 
 
 def main():
