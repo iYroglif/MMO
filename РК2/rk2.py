@@ -198,6 +198,7 @@ def run_q_learning():
                     best_agent = agent
 
     print(f'Лучшие гиперпараметры: epsilon={best_hyperparams[0]}, learning rate={best_hyperparams[1]}, gamma={best_hyperparams[2]}, num episodes={best_hyperparams[3]}')
+    print(f'Суммарная награда: {best_reward}\n')
 
     best_agent.print_q()
     best_agent.draw_episodes_reward()
